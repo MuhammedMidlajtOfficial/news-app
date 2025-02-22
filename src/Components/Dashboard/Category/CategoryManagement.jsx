@@ -7,10 +7,11 @@ const CategoryManagement = () => {
   const [categoryName, setCategoryName] = useState('');
   const [editingCategory, setEditingCategory] = useState(null);
 
+
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:7004/api/categories');
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/categories`);
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -19,6 +20,8 @@ const CategoryManagement = () => {
   };
 
   useEffect(() => {
+    console.log("Base URL:", process.env.REACT_APP_BASE_URL);
+
     fetchCategories();
   }, []);
 
@@ -26,7 +29,7 @@ const CategoryManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:7004/api/categories', {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/categories`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +49,7 @@ const CategoryManagement = () => {
   // Handle category deletion
   const handleDelete = async (categoryId) => {
     try {
-      const response = await fetch(`http://localhost:7004/api/categories/${categoryId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/categories/${categoryId}`, {
         method: 'DELETE',
       });
       
@@ -61,7 +64,7 @@ const CategoryManagement = () => {
   // Handle category update
   const handleUpdate = async (categoryId) => {
     try {
-      const response = await fetch(`http://localhost:7004/api/categories/${categoryId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/categories/${categoryId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +102,7 @@ const CategoryManagement = () => {
       </div>
 
       <div className="category-grid">
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <div key={category._id} className="category-card">
             {editingCategory?.id === category._id ? (
               <div className="edit-form">

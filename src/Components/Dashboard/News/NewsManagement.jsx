@@ -15,7 +15,7 @@ const NewsManagement = () => {
   // Fetch news
   const fetchNews = async () => {
     try {
-      const response = await fetch('http://localhost:7004/api/news');
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/news`);
       const data = await response.json();
       
       setNews(data?.news);
@@ -27,7 +27,7 @@ const NewsManagement = () => {
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:7004/api/categories');
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/categories`);
       const data = await response.json();
       console.log(data);
       
@@ -45,7 +45,7 @@ const NewsManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:7004/api/news', {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/news`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
