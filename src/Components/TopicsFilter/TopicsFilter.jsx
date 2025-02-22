@@ -8,10 +8,39 @@ import axios from 'axios';
 const TopicsFilter = () => {
   const dispatch = useDispatch();
   const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilterId, setActiveFilterId] = useState(null);
   const [showLeftScroll, setShowLeftScroll] = useState(false);
   const [showRightScroll, setShowRightScroll] = useState(true);
-
-  const topics = ['All', 'Trending News'];
+  const [topics, setTopics] = useState([
+    { name: 'All', id: 1 },
+    { name: 'Trending News', id: 2 }
+  ]);
+  
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:7004/api/categories');
+        
+        // Extract categories and keep the structure consistent
+        const categories = response.data.map((categ) => ({
+          name: categ.categoryName,
+          id: categ._id // Keeping the ID reference
+        }));
+  
+        setTopics([
+          { name: 'All', id: null },
+          { name: 'Trending News', id: null },
+          ...categories
+        ]); // Update state with structured categories
+  
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+  
+    fetchCategories();
+  }, []);
 
   const handleScroll = (e) => {
     const container = e.target;
@@ -30,24 +59,26 @@ const TopicsFilter = () => {
   const fetchNews = async (filter) => {
     dispatch(setLoading());
     try {
-      const url = filter === 'All' 
-      ? `${process.env.REACT_APP_BASE_URL}/api/news` 
-      : `${process.env.REACT_APP_BASE_URL}/api/news/trending`;
-      await axios.get(url)
-      .then((response)=>{
-        console.log(response.data.news);
-        dispatch(setNews(response.data.news));
-      }).catch((err)=>{
-        console.log(err);
-      })
+      const url =
+        filter === 'All'
+          ? `${process.env.REACT_APP_BASE_URL}/api/news`
+          : filter === 'Trending News'
+          ? `${process.env.REACT_APP_BASE_URL}/api/news/trending`
+          : `${process.env.REACT_APP_BASE_URL}/api/news?category=${activeFilterId}`;
+
+          
+          const response = await axios.get(url);
+          console.log(response);
+      dispatch(setNews(response.data.news));
     } catch (err) {
-      console.log(err);
+      console.error(err);
       dispatch(setError(err.message));
     }
   };
 
-  const handleFilterChange = (topic) => {
+  const handleFilterChange = (topic, id = null) => {
     setActiveFilter(topic);
+    setActiveFilterId(id)
     fetchNews(topic);
   };
 
@@ -64,15 +95,15 @@ const TopicsFilter = () => {
               <ChevronLeft size={20} />
             </button>
           )}
-          
+
           <div className="topics-row" onScroll={handleScroll}>
             {topics.map((topic) => (
               <button
-                key={topic}
-                onClick={() => handleFilterChange(topic)}
-                className={`topic-button ${activeFilter === topic ? 'active' : ''}`}
+                key={topic.name === 'All' ? 1 : topic.name === 'Trending News' ? 2 : topic.id}
+                onClick={() => handleFilterChange(topic.name, topic.id)}
+                className={`topic-button ${activeFilter === topic.name ? 'active' : ''}`}
               >
-                {topic}
+                {topic.name}
               </button>
             ))}
           </div>
