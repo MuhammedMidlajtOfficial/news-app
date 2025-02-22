@@ -20,7 +20,7 @@ const TopicsFilter = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:7004/api/categories');
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/categories`);
         
         // Extract categories and keep the structure consistent
         const categories = response.data.map((categ) => ({

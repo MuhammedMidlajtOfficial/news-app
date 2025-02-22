@@ -67,7 +67,7 @@ const NewsGrid = () => {
 
 
   const dispatch = useDispatch();
-  const socket = io('http://localhost:7004');
+  const socket = io(process.env.REACT_APP_BASE_URL);
 
   socket.on('newsUpdate', (newNews) => {
     dispatch(setNews([...news,newNews]));
