@@ -1,0 +1,159 @@
+/* TopicsFilter.css */
+.filter-container {
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.filter-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.scroll-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.topics-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.topics-row::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.topic-button {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  position: relative;
+  overflow: hidden;
+}
+
+.topic-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #2563eb;
+  transition: all 0.2s ease;
+  transform: translateX(-50%);
+}
+
+.topic-button:hover {
+  background-color: #e5e7eb;
+}
+
+.topic-button.active {
+  background-color: #2563eb;
+  color: white;
+}
+
+.topic-button.active::after {
+  width: 100%;
+}
+
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-button:hover {
+  background-color: #f3f4f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-left {
+  left: -16px;
+}
+
+.scroll-right {
+  right: -16px;
+}
+
+/* Animation for button press */
+.topic-button:active {
+  transform: scale(0.95);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .filter-wrapper {
+    padding: 0 0.5rem;
+  }
+
+  .topics-row {
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+  }
+
+  .topic-button {
+    padding: 0.375rem 1rem;
+    font-size: 0.813rem;
+  }
+
+  .scroll-button {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Add fade effect to edges */
+.scroll-container::before,
+.scroll-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scroll-container::before {
+  left: 0;
+  background: linear-gradient(to right, white, transparent);
+}
+
+.scroll-container::after {
+  right: 0;
+  background: linear-gradient(to left, white, transparent);
+}
