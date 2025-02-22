@@ -1,6 +1,6 @@
 import React from 'react'
-import NewsGrid from '../NewsCard/NewsCard'
 import TopicsFilter from '../TopicsFilter/TopicsFilter'
+import NewsGrid from '../NewsCard/NewsGrid'
 
 function HomeBody() {
   return (

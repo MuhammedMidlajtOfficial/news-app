@@ -8,6 +8,8 @@ const TopicsFilter = () => {
   const [showLeftScroll, setShowLeftScroll] = useState(false);
   const [showRightScroll, setShowRightScroll] = useState(true);
 
+  
+
   const topics = [
     'All',
     'Trending News',
